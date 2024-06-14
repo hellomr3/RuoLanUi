@@ -38,7 +38,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.text.style.TextAlign
@@ -56,7 +55,7 @@ import com.looptry.Dp6
 import com.looptry.Dp8
 import com.looptry.Text13
 import com.looptry.Text17
-import com.looptry.loading.AppLoading
+import com.looptry.loading.AppLoadingView
 import com.looptry.sdp
 import kotlinx.coroutines.delay
 import kotlin.time.Duration
@@ -155,7 +154,7 @@ fun WeToast(
                         Column(horizontalAlignment = Alignment.CenterHorizontally) {
                             when (icon) {
                                 ToastIcon.LOADING -> {
-                                    AppLoading(
+                                    AppLoadingView(
                                         size = Dp42,
                                         color = MaterialTheme.colorScheme.background
                                     )

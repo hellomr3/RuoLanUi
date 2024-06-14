@@ -31,7 +31,7 @@ import ruolanui.library.generated.resources.ic_loading
  * @param isRotating 是否旋转
  */
 @Composable
-fun AppLoading(
+fun AppLoadingView(
     size: Dp = Dp16,
     color: Color = MaterialTheme.colorScheme.primary,
     isRotating: Boolean = true

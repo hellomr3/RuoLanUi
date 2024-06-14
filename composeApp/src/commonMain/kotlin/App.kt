@@ -7,7 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.looptry.Dp64
-import com.looptry.loading.AppLoading
+import com.looptry.loading.AppLoadingView
 import com.looptry.toast.ToastIcon
 import com.looptry.toast.rememberToastState
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -21,7 +21,7 @@ fun App() {
             Button(onClick = {toastState.show("测试toast", icon = ToastIcon.LOADING, mask = true) }) {
                 Text("Click me!")
             }
-            AppLoading(size = Dp64)
+            AppLoadingView(size = Dp64)
         }
     }
 }

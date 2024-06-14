@@ -122,7 +122,7 @@ compose.desktop {
  * 发布依赖到中央仓库
  */
 mavenPublishing {
-    coordinates("io.github.hellomr3", "RuoLanUI", "0.0.1")
+    coordinates("io.github.hellomr3", "RuoLanUI", "0.0.2")
     // sources publishing is always enabled by the Kotlin Multiplatform plugin
     configure(
         KotlinMultiplatform(
