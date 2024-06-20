@@ -1,27 +1,17 @@
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material.Button
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import com.looptry.Dp64
-import com.looptry.loading.AppLoadingView
-import com.looptry.toast.ToastIcon
-import com.looptry.toast.rememberToastState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import com.ui.toast.ToastScreen
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 @Preview
 fun App() {
-    MaterialTheme {
-        val toastState = rememberToastState()
-        Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
-            Button(onClick = {toastState.show("测试toast", icon = ToastIcon.LOADING, mask = true) }) {
-                Text("Click me!")
-            }
-            AppLoadingView(size = Dp64)
-        }
+    var page by remember {
+        mutableStateOf(0)
     }
+
+    ToastScreen()
 }
