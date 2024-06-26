@@ -16,6 +16,7 @@ import androidx.compose.ui.graphics.Color
 import com.looptry.Black65
 import com.looptry.Black85
 import com.looptry.Dp12
+import com.looptry.Dp44
 import com.looptry.Dp56
 import com.looptry.Text12
 import com.looptry.Text14
@@ -34,7 +35,7 @@ fun BlockButton(
     tailAction: @Composable RowScope.() -> Unit = {},
     leadIconTintColor: Color = Color.Unspecified,
     leadIcon: DrawableResource? = null,
-    tailIcon: DrawableResource? =null,
+    tailIcon: DrawableResource? = null,
     showDivider: Boolean = false,
     dividerPadding: PaddingValues = PaddingValues(),
     onItemClick: () -> Unit
