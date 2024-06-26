@@ -18,8 +18,10 @@ fun PickerScreen() {
         Column {
             BlockButton(leadTitle = "普通弹窗") {
                 pickerState.show(
-                    title = "测试picer",
-                    range = listOf("1", "2", "3"),
+                    title = "测试picker",
+                    range = List(100) {
+                        "第${it}项"
+                    },
                     value = value1,
                     onChange = { value1 = it }
                 )
