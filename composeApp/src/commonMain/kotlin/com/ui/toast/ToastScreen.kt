@@ -1,16 +1,13 @@
 package com.ui.toast
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.material.Scaffold
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import com.looptry.btn.AppIconButton
 import com.looptry.btn.BlockButton
 import com.looptry.toast.ToastIcon
 import com.looptry.toast.rememberToastState
-import org.jetbrains.compose.resources.painterResource
 import ruolanui.composeapp.generated.resources.Res
 import ruolanui.composeapp.generated.resources.compose_multiplatform
-import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
 
 @Composable
