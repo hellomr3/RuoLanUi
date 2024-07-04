@@ -38,6 +38,8 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.looptry.Black85
+import com.looptry.TitleTextColor
 import com.looptry.btn.AppOutlineButton
 import com.looptry.btn.AppSolidButton
 import com.looptry.popup.WePopup
@@ -140,7 +142,7 @@ private fun RowScope.ColumnItem(
                     .height(itemHeight),
                 contentAlignment = Alignment.Center
             ) {
-                Text(text = it, color = MaterialTheme.colorScheme.onPrimary, fontSize = 17.sp)
+                Text(text = it, color = TitleTextColor, fontSize = 17.sp)
             }
         }
     }

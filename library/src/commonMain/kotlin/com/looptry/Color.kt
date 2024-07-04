@@ -1,5 +1,7 @@
 package com.looptry
 
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
 private val Float.colorValue: Float
@@ -73,3 +75,7 @@ val Black15 = Black100.copy(alpha = 0.15f)
 val Black12 = Black100.copy(alpha = 0.12f)
 val Black10 = Black100.copy(alpha = 0.10f)
 val Black5 = Black100.copy(alpha = 0.5f)
+
+val TitleTextColor
+    @Composable
+    get() = if (isSystemInDarkTheme()) White85 else Black85

@@ -7,7 +7,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalContentColor
@@ -73,9 +75,8 @@ fun AppSolidButton(
         modifier = modifier
             .height(Dp40)
             .fillMaxWidth(),
-        colors = ButtonDefaults.buttonColors(),
         shape = RoundedCornerShape(radius),
-        onClick = onClick
+        onClick = onClick,
     ) {
         AppText(
             text = text,
@@ -118,7 +119,7 @@ fun AppTextButton(
 ) {
     TextButton(
         modifier = modifier,
-        interactionSource =remember {
+        interactionSource = remember {
             MutableInteractionSource()
         },
         onClick = onClick

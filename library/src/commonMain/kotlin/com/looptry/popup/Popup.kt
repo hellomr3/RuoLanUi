@@ -47,6 +47,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import com.looptry.Text17
+import com.looptry.TitleTextColor
 import com.looptry.modifier.debounceClick
 import kotlinx.coroutines.delay
 import kotlin.math.roundToInt
@@ -219,8 +221,8 @@ private fun PopupTitle(title: String) {
     ) {
         Text(
             text = title,
-            color = MaterialTheme.colorScheme.onPrimary,
-            fontSize = 17.sp,
+            color = TitleTextColor,
+            fontSize = Text17,
             fontWeight = FontWeight.Bold
         )
     }
