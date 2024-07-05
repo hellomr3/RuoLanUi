@@ -17,7 +17,7 @@ fun AppDatePicker(
     start: LocalDate = Clock.System.todayIn(TimeZone.currentSystemDefault())
         .minus(DatePeriod(years = 50)),
     end: LocalDate = Clock.System.todayIn(TimeZone.currentSystemDefault())
-        .plus(DatePeriod(years = 50)),
+        .plus(DatePeriod(years = 10)),
     onCancel: () -> Unit,
     onChange: (LocalDate) -> Unit
 ) {
@@ -63,37 +63,48 @@ private fun handleColumnChange(
 ) {
     if (type == DateType.YEAR || column == 2) return
 
-    val yearLastIndex = ranges.first().lastIndex
-    val monthRange = if (values.first() == 0 && values.first() == yearLastIndex) {
-        IntRange(start.monthNumber, end.monthNumber)
-    } else {
-        when (values.first()) {
-            0 -> IntRange(start.monthNumber, 12)
-            yearLastIndex -> IntRange(1, end.monthNumber)
-            else -> IntRange(1, 12)
-        }
-    }
-    ranges[1] = monthRange.toList()
-    val curYear = start.year + values.first()
+    ranges[1] = calculateMonthRange(values.first(), start, end, ranges.first().lastIndex)
     if (type == DateType.DAY) {
         ranges[1].getOrNull(values[1])?.let { month ->
-            val dayRange =
-                if (values.first() == yearLastIndex && start.monthNumber == end.monthNumber) {
-                    IntRange(start.dayOfMonth, end.dayOfMonth)
-                } else if (values.first() == 0 && month == start.monthNumber) {
-                    val days = getDaysInMonth(curYear, start.monthNumber)
-                    IntRange(start.dayOfMonth, days)
-                } else if (values.first() == yearLastIndex && month == end.monthNumber) {
-                    IntRange(1, end.dayOfMonth)
-                } else {
-                    val daysOfMonth = getDaysInMonth(curYear, month)
-                    IntRange(1, daysOfMonth)
-                }
-            ranges[2] = dayRange.toList()
+            ranges[2] =
+                calculateDayRange(values.first(), month, start, end, ranges.first().lastIndex)
         }
     }
 
     onRangesChange(ranges.copyOf())
+}
+
+private fun calculateMonthRange(
+    yearIndex: Int,
+    start: LocalDate,
+    end: LocalDate,
+    yearLastIndex: Int
+): List<Int> {
+    return when {
+        yearIndex == 0 && yearIndex == yearLastIndex -> (start.monthNumber..end.monthNumber).toList()
+        yearIndex == 0 -> (start.monthNumber..12).toList()
+        yearIndex == yearLastIndex -> (1..end.monthNumber).toList()
+        else -> (1..12).toList()
+    }
+}
+
+private fun calculateDayRange(
+    yearIndex: Int,
+    month: Int,
+    start: LocalDate,
+    end: LocalDate,
+    yearLastIndex: Int
+): List<Int> {
+    return when {
+        yearIndex == yearLastIndex && start.monthNumber == end.monthNumber -> (start.dayOfMonth..end.dayOfMonth).toList()
+        yearIndex == 0 && month == start.monthNumber -> (start.dayOfMonth..getDaysInMonth(
+            start.year,
+            start.monthNumber
+        )).toList()
+
+        yearIndex == yearLastIndex && month == end.monthNumber -> (1..end.dayOfMonth).toList()
+        else -> (1..getDaysInMonth(start.year + yearIndex, month)).toList()
+    }
 }
 
 @Composable
@@ -104,9 +115,9 @@ private fun rememberRangesSource(
 ): MutableState<Array<List<Int>>> {
     return remember(start, end, type) {
         val options = arrayOf(
-            IntRange(start.year, end.year).toList(),
-            IntRange(1, 12).toList(),
-            IntRange(1, 31).toList()
+            (start.year..end.year).toList(),
+            (1..12).toList(),
+            (1..31).toList()
         )
 
         mutableStateOf(
@@ -145,12 +156,10 @@ private fun rememberCurrentValues(
 ): MutableState<Array<Int>> {
     return remember(ranges, value, start, end) {
         val finalValue = value ?: Clock.System.todayIn(TimeZone.currentSystemDefault())
-        val initialValue = if (finalValue < start) {
-            start
-        } else if (finalValue > end) {
-            end
-        } else {
-            finalValue
+        val initialValue = when {
+            finalValue < start -> start
+            finalValue > end -> end
+            else -> finalValue
         }
 
         mutableStateOf(
