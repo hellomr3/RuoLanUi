@@ -22,7 +22,7 @@ enum class TimeType {
 }
 
 @Composable
-fun WeTimePicker(
+fun AppTimePicker(
     visible: Boolean,
     value: LocalTime? = null,
     type: TimeType = TimeType.SECOND,
@@ -183,7 +183,7 @@ fun rememberTimePickerState(): TimePickerState {
     val state = remember { TimePickerStateImpl() }
 
     state.props?.let { props ->
-        WeTimePicker(
+        AppTimePicker(
             visible = state.visible,
             value = props.value,
             type = props.type,
