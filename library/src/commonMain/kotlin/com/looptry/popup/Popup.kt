@@ -44,7 +44,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.Velocity
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.looptry.Text17
@@ -66,7 +65,7 @@ import kotlin.math.roundToInt
  * @param content 内容
  */
 @Composable
-fun WePopup(
+fun AppBottomPopup(
     visible: Boolean,
     title: String? = null,
     enterTransition: EnterTransition = slideInVertically(

@@ -13,7 +13,7 @@
 //import kotlinx.datetime.Clock
 //import kotlinx.datetime.Instant
 //import kotlinx.datetime.LocalDate
-//import kotlinx.datetime.isDistantPast
+//import kotlinx.datetime.LocalDateTime
 //import kotlin.time.Duration.Companion.days
 //
 //enum class DateType {
@@ -79,13 +79,13 @@
 //    // 计算可选月份
 //    val monthRange = if (values.first() == 0 && values.first() == yearLastIndex) {
 //        // 1.当前选择的既是第一个，又是最后一个年份，则可选月份就是他们之间的月份
-//        IntRange(start.monthValue, end.monthValue)
+//        IntRange(start.monthNumber, end.monthNumber)
 //    } else {
 //        when (values.first()) {
 //            // 2.当前选择的是第一个年份，则可选月份就是开始时间的月份到12月
-//            0 -> IntRange(start.monthValue, 12)
+//            0 -> IntRange(start.monthNumber, 12)
 //            // 3.当前选择的是最后一个年份，则可选月份就是1月到结束时间的月份
-//            yearLastIndex -> IntRange(1, end.monthValue)
+//            yearLastIndex -> IntRange(1, end.monthNumber)
 //            // 4.其它情况，月份固定都是1-12月
 //            else -> IntRange(1, 12)
 //        }
@@ -97,12 +97,12 @@
 //        // 获取当前选择的月份的值
 //        ranges[1].getOrNull(values[1])?.let { month ->
 //            val dayRange =
-//                if (values.first() == yearLastIndex && start.monthValue == end.monthValue) {
+//                if (values.first() == yearLastIndex && start.monthNumber == end.monthNumber) {
 //                    // 如果开始和结束年月都相等，则可选的日就是他们之间的日
 //                    IntRange(start.dayOfMonth, end.dayOfMonth)
-//                } else if (values.first() == 0 && month == start.monthValue) {
+//                } else if (values.first() == 0 && month == start.monthNumber) {
 //                    // 如果当前选择的是开始时间的年和月，则可选的日就是开始时间的日到开始时间的月的最后一天
-//                    val days = LocalDate.now().withMonth(start.monthValue).lengthOfMonth()
+//                    val days =Clock.System.now().wi LocalDate.now().withMonth(start.monthNumber).lengthOfMonth()
 //                    IntRange(start.dayOfMonth, days)
 //                } else if (values.first() == yearLastIndex && month == end.monthValue) {
 //                    // 如果当前选择的是结束结束时间的年和月，则可选的日就是1日到结束时间的日期
@@ -126,7 +126,7 @@
 //private fun rememberRangesSource(
 //    start: Instant,
 //    end: Instant,
-//    type: Instant
+//    type: DateType
 //): MutableState<Array<List<Int>>> {
 //    return remember(start, end, type) {
 //        val options = arrayOf(

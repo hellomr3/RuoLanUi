@@ -22,7 +22,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -38,11 +37,10 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.looptry.Black85
 import com.looptry.TitleTextColor
 import com.looptry.btn.AppOutlineButton
 import com.looptry.btn.AppSolidButton
-import com.looptry.popup.WePopup
+import com.looptry.popup.AppBottomPopup
 import com.looptry.sdp
 import platformVibrate
 import kotlin.math.roundToInt
@@ -59,7 +57,7 @@ fun WePicker(
 ) {
     val localValues = remember(visible) { values.copyOf() }
 
-    WePopup(
+    AppBottomPopup(
         visible,
         title = title,
         enterTransition = fadeIn(tween(150)) + slideInVertically(tween(150)) { it / 3 },
