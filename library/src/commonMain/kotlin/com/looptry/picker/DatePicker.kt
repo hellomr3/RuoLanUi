@@ -14,8 +14,10 @@ fun AppDatePicker(
     visible: Boolean,
     value: LocalDate? = null,
     type: DateType = DateType.DAY,
-    start: LocalDate = Clock.System.todayIn(TimeZone.currentSystemDefault()).minus(DatePeriod(years = 50)),
-    end: LocalDate = Clock.System.todayIn(TimeZone.currentSystemDefault()).plus(DatePeriod(years = 10)),
+    start: LocalDate = Clock.System.todayIn(TimeZone.currentSystemDefault())
+        .minus(DatePeriod(years = 50)),
+    end: LocalDate = Clock.System.todayIn(TimeZone.currentSystemDefault())
+        .plus(DatePeriod(years = 50)),
     onCancel: () -> Unit,
     onChange: (LocalDate) -> Unit
 ) {
@@ -72,19 +74,19 @@ private fun handleColumnChange(
         }
     }
     ranges[1] = monthRange.toList()
-
+    val curYear = start.year + values.first()
     if (type == DateType.DAY) {
         ranges[1].getOrNull(values[1])?.let { month ->
             val dayRange =
                 if (values.first() == yearLastIndex && start.monthNumber == end.monthNumber) {
                     IntRange(start.dayOfMonth, end.dayOfMonth)
                 } else if (values.first() == 0 && month == start.monthNumber) {
-                    val days = getDaysInMonth(start.year, start.monthNumber)
+                    val days = getDaysInMonth(curYear, start.monthNumber)
                     IntRange(start.dayOfMonth, days)
                 } else if (values.first() == yearLastIndex && month == end.monthNumber) {
                     IntRange(1, end.dayOfMonth)
                 } else {
-                    val daysOfMonth = getDaysInMonth(start.year, month)
+                    val daysOfMonth = getDaysInMonth(curYear, month)
                     IntRange(1, daysOfMonth)
                 }
             ranges[2] = dayRange.toList()
@@ -168,8 +170,10 @@ interface DatePickerState {
     fun show(
         value: LocalDate? = null,
         type: DateType = DateType.DAY,
-        start: LocalDate = Clock.System.todayIn(TimeZone.currentSystemDefault()).minus(DatePeriod(years = 50)),
-        end: LocalDate = Clock.System.todayIn(TimeZone.currentSystemDefault()).plus(DatePeriod(years = 10)),
+        start: LocalDate = Clock.System.todayIn(TimeZone.currentSystemDefault())
+            .minus(DatePeriod(years = 50)),
+        end: LocalDate = Clock.System.todayIn(TimeZone.currentSystemDefault())
+            .plus(DatePeriod(years = 10)),
         onChange: (LocalDate) -> Unit
     )
 

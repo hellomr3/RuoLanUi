@@ -11,6 +11,9 @@ import com.looptry.btn.BlockButton
 import com.looptry.picker.rememberDatePickerState
 import com.looptry.picker.rememberSingleColumnPickerState
 import com.looptry.picker.rememberTimePickerState
+import kotlinx.datetime.Clock
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
 
 @Composable
 fun PickerScreen() {
@@ -18,9 +21,19 @@ fun PickerScreen() {
     val datePickerState = rememberDatePickerState()
     val timePickerState = rememberTimePickerState()
     var value1 by remember { mutableStateOf(0) }
+    var date by remember {
+        mutableStateOf(
+            Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
+        )
+    }
+    var time by remember {
+        mutableStateOf(
+            Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).time
+        )
+    }
     Scaffold {
         Column {
-            BlockButton(leadTitle = "单项选择器") {
+            BlockButton(leadTitle = "单项选择器   ${value1}") {
                 pickerState.show(
                     title = "请选择性别",
                     range = listOf("男", "女", "不限制"),
@@ -28,11 +41,15 @@ fun PickerScreen() {
                     onChange = { value1 = it }
                 )
             }
-            BlockButton(leadTitle = "日期选择器") {
-                datePickerState.show {  }
+            BlockButton(leadTitle = "日期选择器   ${date.year}/${date.monthNumber}/${date.dayOfMonth}") {
+                datePickerState.show(value = date) {
+                    date = it
+                }
             }
-            BlockButton(leadTitle = "时间选择器") {
-                timePickerState.show(onChange = {})
+            BlockButton(leadTitle = "时间选择器   ${time.hour}时${time.minute}分${time.second}秒") {
+                timePickerState.show(value = time, onChange = {
+                    time = it
+                })
             }
         }
     }
