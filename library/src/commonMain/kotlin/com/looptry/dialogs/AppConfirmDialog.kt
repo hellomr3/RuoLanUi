@@ -84,7 +84,7 @@ fun AppConfirmDialog(
                             AppOutlineButton(
                                 text = subText,
                                 onClick = {
-                                    onMainClick()
+                                    onSubClick()
                                     onDismissRequest()
                                 },
                                 modifier = Modifier.weight(1f)
@@ -94,7 +94,7 @@ fun AppConfirmDialog(
                         AppSolidButton(
                             text = mainText,
                             onClick = {
-                                onSubClick()
+                                onMainClick()
                                 onDismissRequest()
                             },
                             modifier = Modifier.weight(1f)
