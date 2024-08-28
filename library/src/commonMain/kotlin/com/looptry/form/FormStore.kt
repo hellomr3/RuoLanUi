@@ -7,7 +7,7 @@ import androidx.compose.runtime.remember
 interface FormStore {
     val values: Map<String, Any>
 
-    fun verify(onError: (String) -> Unit): Boolean
+    fun verify(): Result<Unit>
 
     fun set(key: String, value: Any)
 
@@ -49,15 +49,14 @@ class FormStoreImpl(private val store: MutableMap<String, FormValue<Any>>) : For
         store[key] = store[key]?.copy(index = value.index, rules = value.rules) ?: value
     }
 
-    override fun verify(onError: (String) -> Unit): Boolean {
+    override fun verify(): Result<Unit> {
         store.values.sortedBy { it.index }.onEach { item ->
             item.rules.onEach { rule ->
                 if (!rule.verify(item.value)) {
-                    onError(rule.errorMsg)
-                    return false
+                    return Result.failure(FormValidException(rule, formValue = item))
                 }
             }
         }
-        return true
+        return Result.success(Unit)
     }
 }

@@ -9,6 +9,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
+import com.looptry.form.FormValidException
 import com.looptry.form.LocalFormStore
 import com.looptry.form.rememberFormStore
 import com.looptry.form.rule.NotEmpty
@@ -24,8 +25,9 @@ fun FormScreen() {
                 TextFieldFormItem(key = "username", rules = listOf(NotEmpty("请输入用户名")))
                 TextFieldFormItem(key = "password", rules = listOf(NotEmpty("请输入密码")))
                 Button(onClick = {
-                    val result = formStore.verify {
-                        toast.show(it)
+                    val result = formStore.verify()
+                    if (result.isFailure) {
+                        toast.show("${result.exceptionOrNull()?.message}_${(result.exceptionOrNull() as? FormValidException)?.formValue?.index}")
                     }
                 }) {
                     Text("确认")
