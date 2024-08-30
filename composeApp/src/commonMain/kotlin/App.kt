@@ -5,10 +5,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import com.looptry.btn.BlockButton
 import com.ui.dialog.DialogScreen
+import com.ui.form.FormScreen
 import com.ui.picker.PickerScreen
 import com.ui.toast.ToastScreen
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -27,6 +27,8 @@ fun App() {
                         nav.navigate("/dialog")
                     }, nav2Picker = {
                         nav.navigate("/picker")
+                    }, nav2Form = {
+                        nav.navigate("/form")
                     })
             }
             composable("/toast") {
@@ -38,17 +40,26 @@ fun App() {
             composable("/picker") {
                 PickerScreen()
             }
+            composable("/form") {
+                FormScreen()
+            }
         }
     }
 
 }
 
 @Composable
-fun Home(nav2Home: () -> Unit, nav2Dialog: () -> Unit, nav2Picker: () -> Unit) {
+fun Home(
+    nav2Home: () -> Unit,
+    nav2Dialog: () -> Unit,
+    nav2Picker: () -> Unit,
+    nav2Form: () -> Unit,
+) {
     Column {
         BlockButton(leadTitle = "Toast", onItemClick = nav2Home)
         BlockButton(leadTitle = "Dialog", onItemClick = nav2Dialog)
         BlockButton(leadTitle = "Picker", onItemClick = nav2Picker)
+        BlockButton(leadTitle = "Form", onItemClick = nav2Form)
     }
 }
 

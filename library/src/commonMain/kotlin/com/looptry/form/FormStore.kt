@@ -8,9 +8,7 @@ import com.looptry.form.rule.IRule
 interface FormStore {
     val values: Map<String, Any>
 
-    fun verify(onError: (String) -> Unit): Boolean
-
-    fun <T> get(key: String, default: T): T
+    fun verify(): Result<Unit>
 
     fun set(key: String, value: Any)
 
@@ -19,6 +17,21 @@ interface FormStore {
     fun setRules(key: String, rules: List<IRule>)
 }
 
+/**
+ * 获取表单单个数据
+ * @receiver FormStore
+ * @param key String
+ * @param default T
+ * @return T
+ */
+inline fun <reified T> FormStore.get(key: String, default: T): T {
+    val formValue = this.values[key]
+    return if (formValue != null && formValue is T) {
+        formValue
+    } else {
+        default
+    }
+}
 
 @Composable
 fun rememberFormStore(): FormStore {
@@ -30,10 +43,6 @@ fun rememberFormStore(): FormStore {
 class FormStoreImpl(private val store: MutableMap<String, FormValue<Any>>) : FormStore {
     override val values: Map<String, Any>
         get() = store.filter { it.value.value != null }.mapValues { it.value.value!! }
-
-    override fun <T> get(key: String, default: T): T {
-        return runCatching { (store[key] as? FormValue<T>)?.value }.getOrNull() ?: default
-    }
 
     override fun set(key: String, value: Any) {
         store[key] = store[key]?.copy(value = value) ?: FormValue(value)
@@ -47,15 +56,14 @@ class FormStoreImpl(private val store: MutableMap<String, FormValue<Any>>) : For
         store[key] = store[key]?.copy(rules = rules) ?: FormValue(null, rules = rules)
     }
 
-    override fun verify(onError: (String) -> Unit): Boolean {
+    override fun verify(): Result<Unit> {
         store.values.sortedBy { it.index }.onEach { item ->
             item.rules.onEach { rule ->
                 if (!rule.verify(item.value)) {
-                    onError(rule.errorMsg)
-                    return false
+                    return Result.failure(FormValidException(rule, formValue = item))
                 }
             }
         }
-        return true
+        return Result.success(Unit)
     }
 }
