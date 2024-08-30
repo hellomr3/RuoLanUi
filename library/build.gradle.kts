@@ -4,8 +4,6 @@ import com.vanniktech.maven.publish.SonatypeHost
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
-import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -124,7 +122,7 @@ compose.desktop {
  * 发布依赖到中央仓库
  */
 mavenPublishing {
-    coordinates("io.github.hellomr3", "RuoLanUI", "0.0.4")
+    coordinates("io.github.hellomr3", "RuoLanUI", "0.0.5")
     // sources publishing is always enabled by the Kotlin Multiplatform plugin
     configure(
         KotlinMultiplatform(

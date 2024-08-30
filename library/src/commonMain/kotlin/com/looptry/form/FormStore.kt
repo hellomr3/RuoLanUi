@@ -3,6 +3,7 @@ package com.looptry.form
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.remember
+import com.looptry.form.rule.IRule
 
 interface FormStore {
     val values: Map<String, Any>
@@ -14,6 +15,8 @@ interface FormStore {
     fun set(key: String, value: Any)
 
     fun setFormValue(key: String, value: FormValue<Any>)
+
+    fun setRules(key: String, rules: List<IRule>)
 }
 
 
@@ -38,6 +41,10 @@ class FormStoreImpl(private val store: MutableMap<String, FormValue<Any>>) : For
 
     override fun setFormValue(key: String, value: FormValue<Any>) {
         store[key] = store[key]?.copy(index = value.index, rules = value.rules) ?: value
+    }
+
+    override fun setRules(key: String, rules: List<IRule>) {
+        store[key] = store[key]?.copy(rules = rules) ?: FormValue(null, rules = rules)
     }
 
     override fun verify(onError: (String) -> Unit): Boolean {
