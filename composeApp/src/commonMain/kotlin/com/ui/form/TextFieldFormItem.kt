@@ -17,7 +17,7 @@ import com.looptry.form.rule.IRule
 @Composable
 fun TextFieldFormItem(
     key: String,
-    rules: List<IRule>,
+    rules: List<IRule<String>>,
     index: Int = 0,
 ) {
     val formStore = LocalFormStore.current

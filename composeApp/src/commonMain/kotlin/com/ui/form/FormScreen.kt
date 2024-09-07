@@ -13,7 +13,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.looptry.form.FormValidException
 import com.looptry.form.LocalFormStore
 import com.looptry.form.rememberFormStore
-import com.looptry.form.rule.NotEmpty
+import com.looptry.form.rule.StringNotBlank
 import com.looptry.toast.rememberToastState
 
 /**
@@ -26,8 +26,8 @@ fun FormNoViewModelScreen() {
     CompositionLocalProvider(LocalFormStore provides formStore) {
         Scaffold(modifier = Modifier.statusBarsPadding()) {
             Column(Modifier.padding(it)) {
-                TextFieldFormItem(key = "username", rules = listOf(NotEmpty("请输入用户名")))
-                TextFieldFormItem(key = "password", rules = listOf(NotEmpty("请输入密码")))
+                TextFieldFormItem(key = "username", rules = listOf(StringNotBlank("请输入用户名")))
+                TextFieldFormItem(key = "password", rules = listOf(StringNotBlank("请输入密码")))
                 Button(onClick = {
                     val result = formStore.verify()
                     if (result.isFailure) {
@@ -53,8 +53,8 @@ fun FormScreen(
     CompositionLocalProvider(LocalFormStore provides viewModel.formStore) {
         Scaffold(modifier = Modifier.statusBarsPadding()) {
             Column(Modifier.padding(it)) {
-                TextFieldFormItem(key = "username", rules = listOf(NotEmpty("请输入用户名")))
-                TextFieldFormItem(key = "password", rules = listOf(NotEmpty("请输入密码")))
+                TextFieldFormItem(key = "username", rules = listOf(StringNotBlank("请输入用户名")))
+                TextFieldFormItem(key = "password", rules = listOf(StringNotBlank("请输入密码")))
                 Button(onClick = {
                     val result = viewModel.formStore.verify()
                     if (result.isFailure) {

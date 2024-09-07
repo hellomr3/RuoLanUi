@@ -1,6 +1,6 @@
 package com.looptry.form.rule
 
-interface IRule {
+interface IRule<out T> {
     val errorMsg: String
 
     fun verify(value: Any?): Boolean

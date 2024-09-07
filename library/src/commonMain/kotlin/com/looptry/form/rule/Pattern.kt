@@ -8,9 +8,9 @@ package com.looptry.form.rule
 data class Pattern(
     override val errorMsg: String,
     val regex: String,
-) : IRule {
+) : IRule<String> {
     override fun verify(value: Any?): Boolean {
-        if (value == null) return false
-        return regex.toRegex().matches(value.toString())
+        if (value !is String) return false
+        return regex.toRegex().matches(value)
     }
 }
