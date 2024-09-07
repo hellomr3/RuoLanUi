@@ -1,11 +1,15 @@
 package com.looptry.form
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.remember
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 
 interface FormStore {
-    val values: Map<String, Any>
+    val store: StateFlow<Map<String, FormValue<Any>>>
 
     fun verify(): Result<Unit>
 
@@ -21,8 +25,10 @@ interface FormStore {
  * @param default T
  * @return T
  */
+@Composable
 inline fun <reified T> FormStore.get(key: String, default: T): T {
-    val formValue = this.values[key]
+    val formState by this.store.collectAsState()
+    val formValue = formState[key]?.value
     return if (formValue != null && formValue is T) {
         formValue
     } else {
@@ -33,24 +39,28 @@ inline fun <reified T> FormStore.get(key: String, default: T): T {
 @Composable
 fun rememberFormStore(): FormStore {
     val store = remember { mutableStateMapOf<String, FormValue<Any>>() }
-    val state = remember(store) { FormStoreImpl(store) }
+    val state = remember(store) { FormStoreImpl() }
     return state
 }
 
-class FormStoreImpl(private val store: MutableMap<String, FormValue<Any>>) : FormStore {
-    override val values: Map<String, Any>
-        get() = store.filter { it.value.value != null }.mapValues { it.value.value!! }
+class FormStoreImpl : FormStore {
+    private val _store = MutableStateFlow<Map<String, FormValue<Any>>>(emptyMap())
+    override val store: StateFlow<Map<String, FormValue<Any>>> = _store
 
     override fun set(key: String, value: Any) {
-        store[key] = store[key]?.copy(value = value) ?: FormValue(value)
+        val updateStore = _store.value.toMutableMap()
+        updateStore[key] = updateStore[key]?.copy(value = value) ?: FormValue(value)
+        _store.value = updateStore
     }
 
     override fun setFormValue(key: String, value: FormValue<Any>) {
-        store[key] = store[key]?.copy(index = value.index, rules = value.rules) ?: value
+        val updateStore = _store.value.toMutableMap()
+        updateStore[key] = updateStore[key]?.copy(index = value.index, rules = value.rules) ?: value
+        _store.value = updateStore
     }
 
     override fun verify(): Result<Unit> {
-        store.values.sortedBy { it.index }.onEach { item ->
+        store.value.values.sortedBy { it.index }.onEach { item ->
             item.rules.onEach { rule ->
                 if (!rule.verify(item.value)) {
                     return Result.failure(FormValidException(rule, formValue = item))
