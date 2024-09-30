@@ -18,7 +18,7 @@ interface FormStore {
 
     fun setFormValue(key: String, value: FormValue<Any>)
 
-    fun setRules(key: String, rules: List<IRule>)
+    fun setRules(key: String, rules: List<IRule<Any>>)
 }
 
 /**
@@ -62,7 +62,7 @@ class FormStoreImpl : FormStore {
         _store.value = updateStore
     }
 
-    override fun setRules(key: String, rules: List<IRule>) {
+    override fun setRules(key: String, rules: List<IRule<Any>>) {
         val updateStore = _store.value.toMutableMap()
         updateStore[key] = updateStore[key]?.copy(rules = rules) ?: FormValue(null, rules = rules)
         _store.value = updateStore
