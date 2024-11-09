@@ -12,22 +12,22 @@ plugins {
 }
 
 kotlin {
-    @OptIn(ExperimentalWasmDsl::class)
-    wasmJs {
-        moduleName = "composeApp"
-        browser {
-            commonWebpackConfig {
-                outputFileName = "composeApp.js"
-                devServer = (devServer ?: KotlinWebpackConfig.DevServer()).apply {
-                    static = (static ?: mutableListOf()).apply {
-                        // Serve sources to debug inside browser
-                        add(project.projectDir.path)
-                    }
-                }
-            }
-        }
-        binaries.executable()
-    }
+//    @OptIn(ExperimentalWasmDsl::class)
+//    wasmJs {
+//        moduleName = "composeApp"
+//        browser {
+//            commonWebpackConfig {
+//                outputFileName = "composeApp.js"
+//                devServer = (devServer ?: KotlinWebpackConfig.DevServer()).apply {
+//                    static = (static ?: mutableListOf()).apply {
+//                        // Serve sources to debug inside browser
+//                        add(project.projectDir.path)
+//                    }
+//                }
+//            }
+//        }
+//        binaries.executable()
+//    }
 
     androidTarget {
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
@@ -36,7 +36,7 @@ kotlin {
         }
     }
 
-    jvm("desktop")
+//    jvm("desktop")
 
     listOf(
         iosX64(),
@@ -50,7 +50,7 @@ kotlin {
     }
 
     sourceSets {
-        val desktopMain by getting
+//        val desktopMain by getting
 
         androidMain.dependencies {
             implementation(compose.preview)
@@ -68,9 +68,9 @@ kotlin {
             implementation(project(":library"))
             implementation(libs.kotlinx.datetime)
         }
-        desktopMain.dependencies {
-            implementation(compose.desktop.currentOs)
-        }
+//        desktopMain.dependencies {
+//            implementation(compose.desktop.currentOs)
+//        }
     }
 }
 

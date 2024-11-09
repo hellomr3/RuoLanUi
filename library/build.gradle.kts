@@ -38,8 +38,6 @@ kotlin {
         }
     }
 
-    jvm("desktop")
-
     listOf(
         iosX64(),
         iosArm64(),
@@ -52,7 +50,6 @@ kotlin {
     }
 
     sourceSets {
-        val desktopMain by getting
 
         androidMain.dependencies {
             implementation(libs.androidx.activity.compose)
@@ -65,9 +62,6 @@ kotlin {
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(libs.kotlinx.datetime)
-        }
-        desktopMain.dependencies {
-            implementation(compose.desktop.currentOs)
         }
     }
 }
