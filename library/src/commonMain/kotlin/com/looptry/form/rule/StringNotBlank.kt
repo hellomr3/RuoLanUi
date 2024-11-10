@@ -1,8 +1,10 @@
 package com.looptry.form.rule
 
-data class StringNotBlank(override val errorMsg: String) : IRule<String> {
-    override fun verify(value: Any?): Boolean {
-        if (value !is String) return false
-        return value.isNotBlank()
+data class StringNotBlank(private val errorMsg: String) : IRule {
+    override fun verify(value: Any?): Result<Unit> {
+        if (value !is String || value.isBlank()) {
+            return Result.failure(Throwable(errorMsg))
+        }
+        return Result.success(Unit)
     }
 }

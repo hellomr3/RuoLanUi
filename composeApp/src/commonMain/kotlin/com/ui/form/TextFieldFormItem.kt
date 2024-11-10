@@ -16,7 +16,7 @@ import com.looptry.form.rule.IRule
 @Composable
 fun TextFieldFormItem(
     key: String,
-    rules: List<IRule<String>>,
+    rules: List<IRule>,
     index: Int = 0,
     initialValue: String = "",
 ) {

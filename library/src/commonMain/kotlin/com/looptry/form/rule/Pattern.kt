@@ -6,11 +6,15 @@ package com.looptry.form.rule
  * @description
  */
 data class Pattern(
-    override val errorMsg: String,
-    val regex: String,
-) : IRule<String> {
-    override fun verify(value: Any?): Boolean {
-        if (value !is String) return false
-        return regex.toRegex().matches(value)
+    private val errorMsg: String,
+    val regex: Regex,
+) : IRule {
+    override fun verify(value: Any?): Result<Unit> {
+        if (value !is String || !regex.matches(value)) return Result.failure(
+            Throwable(
+                errorMsg
+            )
+        )
+        return Result.success(Unit)
     }
 }

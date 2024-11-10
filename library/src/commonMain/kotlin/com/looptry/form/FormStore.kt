@@ -18,7 +18,7 @@ interface FormStore {
 
     fun setFormValue(key: String, value: FormValue<Any>)
 
-    fun setRules(key: String, rules: List<IRule<Any>>)
+    fun setRules(key: String, rules: List<IRule>)
 }
 
 /**
@@ -62,17 +62,25 @@ class FormStoreImpl : FormStore {
         _store.value = updateStore
     }
 
-    override fun setRules(key: String, rules: List<IRule<Any>>) {
+    override fun setRules(key: String, rules: List<IRule>) {
         val updateStore = _store.value.toMutableMap()
         updateStore[key] = updateStore[key]?.copy(rules = rules) ?: FormValue(null, rules = rules)
         _store.value = updateStore
     }
 
     override fun verify(): Result<Unit> {
-        store.value.values.sortedBy { it.index }.onEach { item ->
-            item.rules.onEach { rule ->
-                if (!rule.verify(item.value)) {
-                    return Result.failure(FormValidException(rule, formValue = item))
+        val items = store.value.values.sortedBy { it.index }
+        items.forEach { item ->
+            item.rules.forEach { rule ->
+                val result = rule.verify(item.value)
+                if (result.isFailure) {
+                    return Result.failure(
+                        FormValidException(
+                            formValue = item,
+                            rule = rule,
+                            errorMsg = result.exceptionOrNull()?.message ?: "校验未通过"
+                        )
+                    )
                 }
             }
         }
